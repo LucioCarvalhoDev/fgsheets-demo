@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FGSheets | Demo</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+
+    <main>
+        <section class="presentation">
+            <div class="presentation_header">
+                <h1>FGSheets</h1>
+                <p>Demonstração de Solução</p>
+            </div>
+
+            <form id="main-form" class="presentation_form" action="">
+                <div class="presentation_form_line">
+                    <label for="">Nick</label>
+                    <input type="text" name="Nick">
+                </div>
+
+                <div class="presentation_form_line">
+                    <label for="">Emoção</label>
+                    <select id="" name="Emoção" required>
+                        <option value=""></option>
+                        <option value="Animado">Animado</option>
+                        <option value="Curioso">Curioso</option>
+                        <option value="Desconfiado">Desconfiado</option>
+                    </select>
+                </div>
+
+                <div class="presentation_form_line">
+                    <label for="">Comentário</label>
+                    <textarea id="" name="Comentário"></textarea>
+                </div>
+
+                <div class="presentation_form_controls">
+                    <button>Limpar</button>
+                    <button>Enviar</button>
+                </div>
+
+                <span id="message-box" class="--hidden"></span>
+
+            </form>
+        </section>
+        <section class="content">
+
+        </section>
+
+
+        <script src="js/messengerController.js"></script>
+        <script>
+            function generateFrame() {
+                return `<iframe class="content_sheet" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTvfd76pHyort_UW8SvAIiDCcnIbVwmljUFiuCbDC4t_CApBHc3qDORHjAJysDXS1uFqmTV3RIUePTA/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false&amp;time=${new Date().valueOf()}"></iframe>`
+            }
+
+            const form = document.forms['main-form'];
+            const messenger = new MessengerController(document.getElementById("message-box"));
+            const frameLocation = document.querySelector(".content");
+
+            frameLocation.innerHTML = generateFrame();
+
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                formData = new FormData(form);
+                payload = {};
+
+                for (element of formData.keys()) {
+                    payload[element] = formData.get(element)
+                }
+
+                console.log(payload)
+
+                try {
+                    const gsheetURL = "https://script.google.com/macros/s/AKfycbx0lXXeSM0hq7Ogt7Qxl_nc45pi_skDNAwnzdNDJH13ZPMvu9yX8LXCjxqfzO0zSbzB9Q/exec";
+
+                    messenger.postMessage("Enviando...");
+                    form.reset();
+
+                    const response = await fetch(gsheetURL, {
+                        redirect: "follow",
+                        method: "POST",
+                        body: JSON.stringify(payload),
+                        headers: {
+                            "Content-Type": "text/plain;charset=utf-8",
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (data.status = "success") {
+                        messenger.postMessage(data.message, 2000);
+                        
+                        frameLocation.innerHTML = generateFrame();
+                    } else {
+                        console.log("b")
+                        messenger.postMessage(data.message, 5000)
+                    }
+
+                } catch (error) {
+                    messenger.postMessage(error, 6000);
+                }
+
+            })
+        </script>
+    </main>
+</body>
+
+</html>

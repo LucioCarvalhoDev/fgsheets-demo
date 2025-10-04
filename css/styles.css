@@ -1,0 +1,122 @@
+body {
+    margin: 0px;
+
+}
+
+input,
+textarea {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+main {
+    width: 100vw;
+    height: 100vh;
+}
+
+.presentation {
+    background-color: #f4f4f4;
+    padding-bottom: 1rem;
+}
+
+.presentation_header {
+    width: 100%;
+    height: 8vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+}
+
+.presentation_header h1, .presentation_header p {
+    margin: 0px;
+    padding: 0px;
+}
+
+.presentation_form {
+    width: 95%;
+    margin: 1rem auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+    border: 2px solid slateblue;
+    border-radius: 5px;
+    padding: 1rem .5rem;
+    box-sizing: border-box;
+}
+
+.presentation_form_line,
+.presentation_form_controls {
+    display: grid;
+    grid-template-columns: 6.5rem 3fr;
+    border: 2px solid rgba(105, 90, 205, 0.645);
+    padding: .125rem;
+    border-radius: 5px;
+    
+}
+
+.presentation_form_controls {
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 3rem;
+}
+
+.presentation_form_controls > button {
+    width: 6rem;
+    border-radius: 15px;
+}
+
+.presentation_form_controls > button:first-child {
+    margin-right: 1rem;
+}
+
+.presentation_form_line > label {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding-left: 5px;
+}
+
+
+.presentation_form_line > input,
+.presentation_form_line > textarea,
+.presentation_form_line > select {
+    width: 100%;
+    border: 0px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    resize: none;
+}
+
+
+.presentation_form_line > textarea {
+    height: 5rem;
+}
+
+#message-box {
+    border: 2px solid slateblue;
+    width: 100%;
+    height: 2rem;
+    background-color: rgb(139, 133, 179);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 5px;
+    box-sizing: border-box;
+}
+
+.--hidden {
+    display: none !important;
+}
+
+.content_sheet {
+    width: 100vw;
+    min-height: 10rem;
+    border: none;
+}
