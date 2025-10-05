@@ -27,9 +27,9 @@
                     <label for="">Emoção</label>
                     <select id="" name="Emoção" required>
                         <option value=""></option>
-                        <option value="Animado">Animado</option>
-                        <option value="Curioso">Curioso</option>
-                        <option value="Desconfiado">Desconfiado</option>
+                        <option value=":D">Animado</option>
+                        <option value="?-?">Curioso</option>
+                        <option value=">:/">Desconfiado</option>
                     </select>
                 </div>
 
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="presentation_form_controls">
-                    <button>Limpar</button>
+                    <button id="clear">Limpar</button>
                     <button>Enviar</button>
                 </div>
 
@@ -59,6 +59,8 @@
             </table>
         </section>
 
+        <a class="gsheet" href="https://docs.google.com/spreadsheets/d/1rInCRKvgcDo4KxCm3cDd9JCZ_GWv-JnTGk23BQ1llQM/edit?usp=sharing">Ver GoogleSheet</a>
+
     </main>
 
     <footer>
@@ -68,14 +70,21 @@
             <a href="https://www.linkedin.com/in/l%C3%BAcio-carvalho-almeida-0599881b0/">Linkedin</a>
         </div>
     </footer>
-    
+
     <script src="js/messengerController.js"></script>
     <script>
+        
         const gsheetURL = new URL("https://script.google.com/macros/s/AKfycbx0lXXeSM0hq7Ogt7Qxl_nc45pi_skDNAwnzdNDJH13ZPMvu9yX8LXCjxqfzO0zSbzB9Q/exec");
-
+        
         const form = document.forms['main-form'];
         const messenger = new MessengerController(document.getElementById("message-box"));
         const contentContainer = document.querySelector('.content');
+        
+        const clearButton = document.getElementById('clear');
+        clearButton.addEventListener("click", e => {
+            e.preventDefault();
+            form.reset();
+        })
 
         async function loadForum() {
             const response = await fetch(gsheetURL.toString(), {
