@@ -1,6 +1,6 @@
+/* reset */
 body {
     margin: 0px;
-
 }
 
 input,
@@ -10,34 +10,47 @@ textarea {
     box-sizing: border-box;
 }
 
-main {
+/* styling */
+
+body {
+    background: #f4f4f4;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 6rem 1fr 6rem;
+    row-gap: 1rem;
+}
+
+.presentation,
+.content,
+footer {
+    width: 100vw;
 }
 
 .presentation {
-    background-color: #f4f4f4;
     padding-bottom: 1rem;
 }
 
-.presentation_header {
+.header {
+    border-top: 5px solid slateblue;
     width: 100%;
-    height: 8vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #f4f4f4;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
 }
 
-.presentation_header h1, .presentation_header p {
+.header h1,
+.header p {
     margin: 0px;
     padding: 0px;
 }
 
 .presentation_form {
     width: 95%;
-    margin: 1rem auto;
+    margin: 0px auto;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
@@ -56,7 +69,7 @@ main {
     border: 2px solid rgba(105, 90, 205, 0.645);
     padding: .125rem;
     border-radius: 5px;
-    
+
 }
 
 .presentation_form_controls {
@@ -66,16 +79,16 @@ main {
     height: 3rem;
 }
 
-.presentation_form_controls > button {
+.presentation_form_controls>button {
     width: 6rem;
     border-radius: 15px;
 }
 
-.presentation_form_controls > button:first-child {
+.presentation_form_controls>button:first-child {
     margin-right: 1rem;
 }
 
-.presentation_form_line > label {
+.presentation_form_line>label {
     display: flex;
     align-items: center;
     box-sizing: border-box;
@@ -83,9 +96,9 @@ main {
 }
 
 
-.presentation_form_line > input,
-.presentation_form_line > textarea,
-.presentation_form_line > select {
+.presentation_form_line>input,
+.presentation_form_line>textarea,
+.presentation_form_line>select {
     width: 100%;
     border: 0px;
     border-radius: 5px;
@@ -95,7 +108,7 @@ main {
 }
 
 
-.presentation_form_line > textarea {
+.presentation_form_line>textarea {
     height: 5rem;
 }
 
@@ -115,8 +128,36 @@ main {
     display: none !important;
 }
 
-.content_sheet {
-    width: 100vw;
-    min-height: 10rem;
-    border: none;
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0 auto;
+}
+
+th,
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    height: 1.2rem;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+footer {
+    background-color: #d7d7d7;
+    border-bottom: 5px solid slateblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.presentation_form,
+.content {
+    max-width: 40rem;
+    margin: 0 auto;
 }

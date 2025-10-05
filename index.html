@@ -10,13 +10,13 @@
 
 <body>
 
+    <header class="header">
+        <h1>FGSheets</h1>
+        <p>Demonstração de Solução</p>
+    </header>
+
     <main>
         <section class="presentation">
-            <div class="presentation_header">
-                <h1>FGSheets</h1>
-                <p>Demonstração de Solução</p>
-            </div>
-
             <form id="main-form" class="presentation_form" action="">
                 <div class="presentation_form_line">
                     <label for="">Nick</label>
@@ -47,68 +47,88 @@
 
             </form>
         </section>
-        <section class="content">
 
+
+        <section class="content">
+            <table>
+                <tr>
+                    <th>Nick</th>
+                    <th>Emoção</th>
+                    <th>Comentário</th>
+                    <th>Data</th>
+            </table>
         </section>
 
+    </main>
 
-        <script src="js/messengerController.js"></script>
-        <script>
-            function generateFrame() {
-                return `<iframe class="content_sheet" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTvfd76pHyort_UW8SvAIiDCcnIbVwmljUFiuCbDC4t_CApBHc3qDORHjAJysDXS1uFqmTV3RIUePTA/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false&amp;time=${new Date().valueOf()}"></iframe>`
+    <footer>
+        <div>Lúcio Carvalho Almeida</div>
+        <div>
+            <a href="https://github.com/LucioCarvalhoDev">Github</a><span>&ThickSpace;;</span>
+            <a href="https://www.linkedin.com/in/l%C3%BAcio-carvalho-almeida-0599881b0/">Linkedin</a>
+        </div>
+    </footer>
+    
+    <script src="js/messengerController.js"></script>
+    <script>
+        const gsheetURL = new URL("https://script.google.com/macros/s/AKfycbx0lXXeSM0hq7Ogt7Qxl_nc45pi_skDNAwnzdNDJH13ZPMvu9yX8LXCjxqfzO0zSbzB9Q/exec");
+
+        const form = document.forms['main-form'];
+        const messenger = new MessengerController(document.getElementById("message-box"));
+        const contentContainer = document.querySelector('.content');
+
+        async function loadForum() {
+            const response = await fetch(gsheetURL.toString(), {
+                method: "GET",
+                redirect: "follow"
+            });
+
+            contentContainer.innerHTML = await response.text();
+        }
+
+        loadForum();
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            formData = new FormData(form);
+            payload = {};
+
+            for (element of formData.keys()) {
+                payload[element] = formData.get(element)
             }
 
-            const form = document.forms['main-form'];
-            const messenger = new MessengerController(document.getElementById("message-box"));
-            const frameLocation = document.querySelector(".content");
+            console.log(payload)
 
-            frameLocation.innerHTML = generateFrame();
+            try {
+                messenger.postMessage("Enviando...");
+                form.reset();
 
-            form.addEventListener("submit", async (event) => {
-                event.preventDefault();
-
-                formData = new FormData(form);
-                payload = {};
-
-                for (element of formData.keys()) {
-                    payload[element] = formData.get(element)
-                }
-
-                console.log(payload)
-
-                try {
-                    const gsheetURL = "https://script.google.com/macros/s/AKfycbx0lXXeSM0hq7Ogt7Qxl_nc45pi_skDNAwnzdNDJH13ZPMvu9yX8LXCjxqfzO0zSbzB9Q/exec";
-
-                    messenger.postMessage("Enviando...");
-                    form.reset();
-
-                    const response = await fetch(gsheetURL, {
-                        redirect: "follow",
-                        method: "POST",
-                        body: JSON.stringify(payload),
-                        headers: {
-                            "Content-Type": "text/plain;charset=utf-8",
-                        }
-                    });
-
-                    const data = await response.json();
-
-                    if (data.status = "success") {
-                        messenger.postMessage(data.message, 2000);
-                        
-                        frameLocation.innerHTML = generateFrame();
-                    } else {
-                        console.log("b")
-                        messenger.postMessage(data.message, 5000)
+                const response = await fetch(gsheetURL.toString(), {
+                    redirect: "follow",
+                    method: "POST",
+                    body: JSON.stringify(payload),
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8",
                     }
+                });
 
-                } catch (error) {
-                    messenger.postMessage(error, 6000);
+                const data = await response.json();
+
+                if (data.status = "success") {
+                    messenger.postMessage(data.message, 2000);
+
+                    loadForum();
+                } else {
+                    messenger.postMessage(data.message, 5000)
                 }
 
-            })
-        </script>
-    </main>
+            } catch (error) {
+                messenger.postMessage(error, 6000);
+            }
+
+        })
+    </script>
 </body>
 
 </html>
